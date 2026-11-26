@@ -544,3 +544,16 @@ footer {
   font-size: 0.88rem;
   caret-color: var(--soul-yellow);
 }
+
+/* Cursor de máquina de escribir RPG */
+.typing-active::after {
+  content: "▮";
+  color: var(--soul-yellow);
+  margin-left: 3px;
+  animation: blinkCursor 0.5s infinite;
+}
+
+@keyframes blinkCursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}

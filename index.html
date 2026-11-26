@@ -162,6 +162,7 @@
   <!-- Módulos externos -->
   <script src="audio.js"></script>
   <script src="terminal.js"></script>
+  <script src="typewriter.js"></script>
 
   <!-- Navegación de pantallas -->
   <script>
@@ -184,6 +185,9 @@
         if (i === index) {
           void panel.offsetWidth;
           panel.classList.add('active');
+          if (typeof window.triggerScreenTypewriter === 'function') {
+            window.triggerScreenTypewriter(panel);
+          }
         }
       });
 
@@ -208,7 +212,6 @@
     });
 
     document.addEventListener('keydown', (e) => {
-      // No cambiar de pantalla si la terminal desplegable está abierta
       const drawer = document.getElementById('cliDrawer');
       if (drawer && drawer.classList.contains('open')) return;
 

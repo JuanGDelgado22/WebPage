@@ -161,6 +161,27 @@ function playPolyStep() {
   if (event.mel)  triggerVoice(event.mel, 'square', 0.022, event.melDur, 1100);
   stepIndex = (stepIndex + 1) % composition.length;
 }
+// Sonido 4: Voz de diálogo estilo RPG (blip grave suave al escribir)
+function playVoiceBlip() {
+  if (!sfxEnabled) return;
+  initAudio();
+  const now = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+
+  // Onda triangular con ligera variación orgánica de tono
+  osc.type = 'triangle';
+  const baseFreq = 165 + (Math.random() * 25 - 12);
+  osc.frequency.setValueAtTime(baseFreq, now);
+
+  gain.gain.setValueAtTime(0.035, now);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045);
+
+  osc.connect(gain);
+  gain.connect(masterGain);
+  osc.start(now);
+  osc.stop(now + 0.05);
+}
 
 // Controles vinculados al DOM
 document.addEventListener('DOMContentLoaded', () => {
