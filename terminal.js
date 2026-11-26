@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let commandHistory = [];
   let historyIndex = -1;
 
-  // Recuperar usuario guardado o iniciar en modo selección
   let currentUser = localStorage.getItem('sys_os_visitor') || null;
   let awaitingUsername = !currentUser;
 
@@ -29,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Sonido sutil de tecla mecánica
   function playKeyTick() {
     if (typeof sfxEnabled !== 'undefined' && !sfxEnabled) return;
     if (typeof initAudio === 'function') initAudio();
@@ -74,7 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Cambiar color del Alma en toda la interfaz
   function setSoulTheme(colorName) {
     const root = document.documentElement;
     const themes = {
@@ -95,12 +92,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (svgCore) svgCore.setAttribute('fill', chosen.hex);
 
     printLine(`* Resonancia cambiada a: <span class="hl">${chosen.label}</span>`, 'accent');
+    if (typeof window.companionSay === 'function') {
+      window.companionSay(`* Alma sintonizada: ${chosen.label}`);
+    }
     return true;
   }
 
-  // Procesador de comandos
   function executeCommand(rawCmd) {
-    // Paso inicial: asignar nombre de usuario del visitante
     if (awaitingUsername) {
       const chosenUser = sanitizeUsername(rawCmd);
       currentUser = chosenUser;
@@ -111,6 +109,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (typeof playSelectSound === 'function') playSelectSound();
       printLine(`* Sesión iniciada como <span class="hl">${currentUser}@juan</span>.`, 'accent');
       printLine('* Escribe <span class="hl">help</span> para listar comandos o <span class="hl">user [nombre]</span> si deseas cambiar tu alias.');
+      if (typeof window.companionSay === 'function') {
+        window.companionSay(`* ¡Bienvenido al nodo, ${currentUser}!`);
+      }
       return;
     }
 
@@ -129,15 +130,17 @@ document.addEventListener('DOMContentLoaded', () => {
     switch (cmd) {
       case 'help':
       case '?':
-        printLine('Comandos disponibles en <span class="hl">SYS_OS v1.1</span>:', 'accent');
+        printLine('Comandos disponibles en <span class="hl">SYS_OS v1.3</span>:', 'accent');
         printLine('  <span class="hl">user [nombre]</span>   - Cambiar tu alias de visitante en la sesión');
         printLine('  <span class="hl">whoami</span>          - Perfil del anfitrión y estado de tu sesión');
         printLine('  <span class="hl">ls</span>              - Listar módulos y registros del sistema');
         printLine('  <span class="hl">cat [archivo]</span>   - Leer detalle (ej. cat slot01)');
         printLine('  <span class="hl">goto [vista]</span>    - Navegar a: perfil | gestion | archivos | senal');
         printLine('  <span class="hl">soul [color]</span>    - Cambiar color: yellow | cyan | purple | red | white');
-        printLine('  <span class="hl">bgm [on|off]</span>    - Controlar música ambiental en Re Dórico');
+        printLine('  <span class="hl">bgm [on|off]</span>    - Controlar música de fondo');
+        printLine('  <span class="hl">track [1|2]</span>     - Cambiar pista (1: Abismo Dórico | 2: Valle Lidio)');
         printLine('  <span class="hl">sfx [on|off]</span>    - Controlar efectos de sonido');
+        printLine('  <span class="hl">battle</span>          - Iniciar simulación de evasión de bugs');
         printLine('  <span class="hl">check</span>           - Inspeccionar estadísticas del operador');
         printLine('  <span class="hl">clear</span>           - Limpiar la pantalla de la terminal');
         break;
@@ -168,7 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
         printLine('-rw-r--r--  <span class="hl">slot01.dat</span>  [VACÍO]');
         printLine('-rw-r--r--  <span class="hl">slot02.dat</span>  [VACÍO]');
         printLine('-rw-r--r--  <span class="hl">slot03.dat</span>  [VACÍO]');
-        printLine('-rwxr-xr-x  audio_dorian_synth.bin');
+        printLine('-rwxr-xr-x  audio_dual_synth.bin');
+        printLine('-rwxr-xr-x  debug_battle_sim.exe');
         break;
 
       case 'cat':
@@ -209,12 +213,26 @@ document.addEventListener('DOMContentLoaded', () => {
       case 'bgm':
         if (arg === 'on') {
           if (!bgmPlaying) document.getElementById('bgmToggle').click();
-          printLine('* Sintetizador Re Dórico: ACTIVADO.', 'accent');
+          printLine('* Sintetizador BGM: ACTIVADO.', 'accent');
         } else if (arg === 'off') {
           if (bgmPlaying) document.getElementById('bgmToggle').click();
-          printLine('* Sintetizador Re Dórico: SILENCIADO.');
+          printLine('* Sintetizador BGM: SILENCIADO.');
         } else {
           printLine('Uso: bgm on | bgm off', 'error');
+        }
+        break;
+
+      case 'track':
+      case 'trk':
+        if (typeof window.switchBgmTrack === 'function') {
+          const res = window.switchBgmTrack(arg);
+          if (res) {
+            const name = res === 1 ? '01 - Ecos del Abismo (Re Dórico)' : '02 - Mañana en el Valle (Sol Lidio)';
+            printLine(`* Pista seleccionada: <span class="hl">${name}</span>`, 'accent');
+            if (typeof playSelectSound === 'function') playSelectSound();
+          } else {
+            printLine('Uso: track 1 | track 2', 'error');
+          }
         }
         break;
 
@@ -228,6 +246,17 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           printLine('Uso: sfx on | sfx off', 'error');
         }
+        break;
+
+      case 'battle':
+      case 'debug':
+        printLine('* ¡ALERTA! Anomalías detectadas en el clúster. Iniciando protocolo de evasión...', 'error');
+        setTimeout(() => {
+          toggleTerminal(false);
+          if (typeof window.startSysBattle === 'function') {
+            window.startSysBattle();
+          }
+        }, 550);
         break;
 
       case 'check':
@@ -308,9 +337,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Inicialización de bienvenida según si es visitante nuevo o recurrente
   updatePromptUI();
-  printLine('* SYS_OS Terminal v1.1 conectada al Abismo.', 'accent');
+  printLine('* SYS_OS Terminal v1.3 conectada al Abismo.', 'accent');
   if (awaitingUsername) {
     printLine('* <span class="hl">Nombra tu presencia:</span> escribe un alias para esta sesión (o presiona Enter para continuar como <span class="hl">guest</span>).');
   } else {

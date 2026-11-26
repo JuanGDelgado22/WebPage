@@ -39,6 +39,9 @@
         </span>
         <span id="bgmLabel">BGM: OFF</span>
       </button>
+      <button id="trkToggle" class="audio-btn" aria-label="Cambiar pista musical">
+        <span id="trkLabel">TRK: 01</span>
+      </button>
     </div>
   </header>
 
@@ -81,11 +84,11 @@
       </p>
 
       <div class="hint-bar">
-        * TIP: Usa las flechas [ ← / → ] para navegar o presiona [ &gt;_ CLI ] para abrir la terminal.
+        * TIP: Usa las flechas [ ← / → ] para navegar, presiona [ &gt;_ CLI ] o toca al espíritu de la esquina.
       </div>
     </section>
 
-    <!-- VISTA 2: GESTIÓN & ARQUITECTURA -->
+    <!-- VISTA 2: GESTIÓN & ARQUITECTURA + INVENTARIO -->
     <section id="panel-enfoque" class="screen-panel" role="tabpanel">
       <h2><span>*</span> ARQUITECTURA & GESTIÓN</h2>
       <div class="pillars-grid">
@@ -106,6 +109,22 @@
           <h3>Optimización & Recursos</h3>
           <p>Gobernanza de activos tecnológicos, control de presupuestos, evaluación de proveedores y automatización de flujos.</p>
         </article>
+      </div>
+
+      <!-- Inventario Equipable -->
+      <div class="inventory-section">
+        <span class="inv-label">[ INVENTARIO DE OPERADOR — HAZ CLIC PARA INSPECCIONAR ]</span>
+        <div class="inv-bar">
+          <button class="inv-item equipped" data-item="coffee">☕ Café de Guardia</button>
+          <button class="inv-item" data-item="ssh">🔑 Llave SSH</button>
+          <button class="inv-item" data-item="sla">📜 Grimorio SLA</button>
+          <button class="inv-item" data-item="script">⚡ Script Maestro</button>
+        </div>
+        <div class="inv-inspect">
+          <div id="invItemTitle" class="inv-inspect-title">Taza de Café Negro (Guardia 03:00 AM)</div>
+          <div id="invItemStat" class="inv-inspect-stat">[ +25 VELOCIDAD DE DIAGNÓSTICO // -10 SUEÑO ]</div>
+          <div id="invItemDesc" class="inv-inspect-desc">Artefacto legendario indispensable durante ventanas de mantenimiento y migraciones críticas.</div>
+        </div>
       </div>
     </section>
 
@@ -153,16 +172,51 @@
 
   </main>
 
+  <!-- Espíritu Compañero Flotante (Estilo Vasija Abisal Pixel Art) -->
+  <div class="companion-dock">
+    <div id="companionBubble" class="companion-bubble" role="status"></div>
+    <button id="abyssCompanion" class="abyss-companion" aria-label="Hablar con el espíritu del sistema" title="Haz clic para interactuar">
+      <svg viewBox="0 0 16 16" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+        <!-- Cuernos blancos estilo Hollow Knight -->
+        <path fill="#E2E8F0" d="M4 1h2v3H4zM10 1h2v3h-2zM3 2h1v2H3zm9 0h1v2h-1z"/>
+        <!-- Máscara blanca -->
+        <path fill="#F8FAFC" d="M4 4h8v6H4zM5 10h6v1H5z"/>
+        <!-- Ojos oscuros abisales -->
+        <path fill="#050608" d="M5 6h2v2H5zm4 0h2v2H9z"/>
+        <!-- Capa etérea tenue -->
+        <path fill="#64748B" d="M5 11h6v3H5zM4 12h1v2H4zm7 0h1v2h-1z"/>
+      </svg>
+    </button>
+  </div>
+
   <!-- Footer -->
   <footer>
     <span>* El silencio del Abismo también es código.</span>
     <span>© 2026 JUAN GARCÍA</span>
   </footer>
 
+  <!-- Modal de Batalla Retro -->
+  <div id="battleModal" class="battle-modal" aria-label="Simulación de combate">
+    <div class="battle-box">
+      <div class="battle-top">
+        <span id="battleHp">HP 20 / 20</span>
+        <span id="battleTimer">TIEMPO: 15s</span>
+      </div>
+      <canvas id="battleCanvas" width="360" height="220"></canvas>
+      <p id="battleStatus" class="battle-status"></p>
+      <div class="battle-footer">
+        <span>[FLECHAS / WASD]</span>
+        <button id="battleClose" class="cli-close">[ SALIR / ESC ]</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Módulos externos -->
   <script src="audio.js"></script>
   <script src="terminal.js"></script>
   <script src="typewriter.js"></script>
+  <script src="battle.js"></script>
+  <script src="companion.js"></script>
 
   <!-- Navegación de pantallas -->
   <script>
@@ -213,7 +267,10 @@
 
     document.addEventListener('keydown', (e) => {
       const drawer = document.getElementById('cliDrawer');
-      if (drawer && drawer.classList.contains('open')) return;
+      const battleModal = document.getElementById('battleModal');
+      if ((drawer && drawer.classList.contains('open')) || (battleModal && battleModal.classList.contains('open'))) {
+        return;
+      }
 
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
         activateScreen((currentIndex + 1) % menuItems.length, true);
