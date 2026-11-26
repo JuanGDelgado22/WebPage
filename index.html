@@ -8,138 +8,283 @@
 </head>
 <body>
 
-  <!-- Navegación -->
-  <nav>
-    <a href="#" class="nav-brand"><span>*</span> JUAN.GARCIA</a>
-    <div class="nav-controls">
-      <ul class="nav-links">
-        <li><a href="#enfoque">Enfoque</a></li>
-        <li><a href="#proyectos">Archivos</a></li>
-        <li><a href="#contacto">Señal</a></li>
-      </ul>
-      <button id="audioToggle" class="audio-btn" aria-label="Alternar música ambiental 8-bit">
+  <!-- HUD Superior -->
+  <header class="top-hud">
+    <div class="hud-title"><span>*</span> JUAN.GARCIA // SYS_OS</div>
+    <div class="sound-rack">
+      <button id="sfxToggle" class="audio-btn active" aria-label="Alternar efectos de sonido">
+        <span id="sfxLabel">SFX: ON</span>
+      </button>
+      <button id="bgmToggle" class="audio-btn" aria-label="Alternar música ambiental 8-bit">
         <span class="eq-bars">
           <span></span><span></span><span></span>
         </span>
-        <span id="audioLabel">BGM: OFF</span>
+        <span id="bgmLabel">BGM: OFF</span>
       </button>
-    </div>
-  </nav>
-
-  <!-- Presentación Principal -->
-  <header class="hero">
-    <div class="hero-header">
-      <!-- Emblema Pixel Art: Corazón Invertido de Justicia con Aura Etérea -->
-      <svg class="pixel-emblem" viewBox="0 0 16 16" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
-        <!-- Aura exterior tenue -->
-        <path fill="rgba(255,216,0,0.22)" d="M7 1h2v1H7zM6 2h1v1H6zm3 0h1v1H9zM5 3h1v1H5zm5 0h1v1h-1zM3 4h2v1H3zm8 0h2v1h-2zM2 5h1v5H2zm11 0h1v5h-1zM3 10h1v2H3zm9 0h1v2h-1zM4 12h3v1H4zm5 0h3v1H9z"/>
-        <!-- Núcleo amarillo (Corazón invertido estilo Soul) -->
-        <path fill="#FFD800" d="M7 2h2v1H7zM6 3h4v1H6zM5 4h6v1H5zM4 5h8v1H4zM3 6h10v3H3zM4 9h3v1H4zm5 0h3v1H9zM5 10h2v1H5zm4 0h2v1H9z"/>
-        <!-- Brillo interno blanco -->
-        <path fill="#FFFBEB" d="M5 6h1v2H5zm1-1h1v1H6z"/>
-      </svg>
-
-      <div class="hero-title-group">
-        <span class="subtitle">[ SYSADMIN // LIDERAZGO // ORQUESTACIÓN ]</span>
-        <h1>Juan García</h1>
-      </div>
-    </div>
-
-    <p class="hero-bio">
-      Administrador de Sistemas enfocado en la <strong>gestión estratégica de recursos tecnológicos y talento humano</strong>. Coordino equipos multidisciplinarios para mantener la infraestructura resiliente, automatizar procesos críticos y convertir sistemas complejos en operaciones armónicas.
-    </p>
-
-    <div class="hero-actions">
-      <a href="#proyectos" class="btn-soul">▶ EXPLORAR REGISTROS</a>
     </div>
   </header>
 
-  <!-- Pilares de Gestión (Combinación profesional + guiño RPG) -->
-  <section id="enfoque">
-    <div class="section-header">
-      <h2>01. ARQUITECTURA & GESTIÓN</h2>
-      <div class="section-line"></div>
-    </div>
+  <!-- Menú Interactivo estilo Videojuego -->
+  <nav class="rpg-menu" role="tablist" aria-label="Menú principal">
+    <button class="menu-item selected" data-target="panel-perfil" role="tab" aria-selected="true">
+      <span class="menu-cursor">♥</span> PERFIL
+    </button>
+    <button class="menu-item" data-target="panel-enfoque" role="tab" aria-selected="false">
+      <span class="menu-cursor">♥</span> GESTIÓN
+    </button>
+    <button class="menu-item" data-target="panel-proyectos" role="tab" aria-selected="false">
+      <span class="menu-cursor">♥</span> ARCHIVOS
+    </button>
+    <button class="menu-item" data-target="panel-contacto" role="tab" aria-selected="false">
+      <span class="menu-cursor">♥</span> SEÑAL
+    </button>
+  </nav>
 
-    <div class="pillars-grid">
-      <article class="pillar-box">
-        <span class="pillar-code">ATTR // INFRAESTRUCTURA</span>
-        <h3>Sistemas & Continuidad</h3>
-        <p>Administración de servidores, redes, seguridad operativa y estandarización de entornos productivos de alta disponibilidad.</p>
-      </article>
+  <!-- Escenario Dinámico (Aquí aparecen y desaparecen las vistas) -->
+  <main class="stage-container">
 
-      <article class="pillar-box">
-        <span class="pillar-code">ATTR // SINCRONÍA</span>
-        <h3>Equipos Multidisciplinarios</h3>
-        <p>Coordinación de talento técnico, definición de SLAs y alineación entre áreas operativas y objetivos de negocio.</p>
-      </article>
+    <!-- VISTA 1: PERFIL -->
+    <section id="panel-perfil" class="screen-panel active" role="tabpanel">
+      <div class="hero-header">
+        <!-- Emblema Pixel Art: Corazón Invertido de Justicia -->
+        <svg class="pixel-emblem" viewBox="0 0 16 16" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+          <path fill="rgba(255,216,0,0.22)" d="M7 1h2v1H7zM6 2h1v1H6zm3 0h1v1H9zM5 3h1v1H5zm5 0h1v1h-1zM3 4h2v1H3zm8 0h2v1h-2zM2 5h1v5H2zm11 0h1v5h-1zM3 10h1v2H3zm9 0h1v2h-1zM4 12h3v1H4zm5 0h3v1H9z"/>
+          <path fill="#FFD800" d="M7 2h2v1H7zM6 3h4v1H6zM5 4h6v1H5zM4 5h8v1H4zM3 6h10v3H3zM4 9h3v1H4zm5 0h3v1H9zM5 10h2v1H5zm4 0h2v1H9z"/>
+          <path fill="#FFFBEB" d="M5 6h1v2H5zm1-1h1v1H6z"/>
+        </svg>
 
-      <article class="pillar-box">
-        <span class="pillar-code">ATTR // RECURSOS</span>
-        <h3>Optimización & Estrategia</h3>
-        <p>Gobernanza de activos tecnológicos, control de presupuestos, evaluación de proveedores y automatización de flujos.</p>
-      </article>
-    </div>
-  </section>
-
-  <!-- Proyectos (Ranuras vacías listas para poblar) -->
-  <section id="proyectos">
-    <div class="section-header">
-      <h2>02. REGISTROS DE PROYECTOS</h2>
-      <div class="section-line"></div>
-    </div>
-
-    <div class="slots-grid">
-      <article class="save-slot">
-        <div class="slot-meta">
-          <span>SLOT 01</span>
-          <span class="slot-status">[ VACÍO ]</span>
+        <div>
+          <span class="subtitle">[ SYSADMIN // LIDERAZGO // ORQUESTACIÓN ]</span>
+          <h1>Juan García</h1>
         </div>
-        <h3>Archivo Pendiente</h3>
-        <p>Espacio reservado para documentación de infraestructura, automatización o arquitectura de sistemas.</p>
-        <div class="slot-footer">ESTADO: Esperando datos...</div>
-      </article>
+      </div>
 
-      <article class="save-slot">
-        <div class="slot-meta">
-          <span>SLOT 02</span>
-          <span class="slot-status">[ VACÍO ]</span>
-        </div>
-        <h3>Archivo Pendiente</h3>
-        <p>Espacio reservado para herramientas internas, gestión de activos o despliegue de servicios.</p>
-        <div class="slot-footer">ESTADO: Esperando datos...</div>
-      </article>
+      <p class="hero-bio">
+        Administrador de Sistemas enfocado en la <strong>gestión estratégica de recursos tecnológicos y talento humano</strong>. Coordino equipos multidisciplinarios para mantener la infraestructura resiliente, automatizar procesos críticos y convertir sistemas complejos en operaciones armónicas.
+      </p>
 
-      <article class="save-slot">
-        <div class="slot-meta">
-          <span>SLOT 03</span>
-          <span class="slot-status">[ VACÍO ]</span>
-        </div>
-        <h3>Archivo Pendiente</h3>
-        <p>Espacio reservado para experimentos técnicos, scripts o integraciones en desarrollo.</p>
-        <div class="slot-footer">ESTADO: Esperando datos...</div>
-      </article>
-    </div>
-  </section>
+      <div class="hint-bar">
+        * TIP: Usa el menú superior o las flechas del teclado [ ← / → ] para navegar entre módulos.
+      </div>
+    </section>
 
-  <!-- Contacto -->
-  <footer id="contacto">
-    <span>* El silencio del Abismo también es código. — 2026</span>
-    <div>
-      TRANSMISIÓN: <a href="mailto:juanra.gardel@outlook.com">juanra.gardel@outlook.com</a>
-    </div>
+    <!-- VISTA 2: GESTIÓN & ARQUITECTURA -->
+    <section id="panel-enfoque" class="screen-panel" role="tabpanel">
+      <h2><span>*</span> ARQUITECTURA & GESTIÓN</h2>
+      <div class="pillars-grid">
+        <article class="pillar-box">
+          <span class="pillar-code">MOD // 01</span>
+          <h3>Infraestructura & Sistemas</h3>
+          <p>Administración de servidores, redes, seguridad operativa y estandarización de entornos productivos de alta disponibilidad.</p>
+        </article>
+
+        <article class="pillar-box">
+          <span class="pillar-code">MOD // 02</span>
+          <h3>Equipos Multidisciplinarios</h3>
+          <p>Coordinación de talento técnico, definición de SLAs y alineación entre áreas operativas y objetivos de negocio.</p>
+        </article>
+
+        <article class="pillar-box">
+          <span class="pillar-code">MOD // 03</span>
+          <h3>Optimización & Recursos</h3>
+          <p>Gobernanza de activos tecnológicos, control de presupuestos, evaluación de proveedores y automatización de flujos.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- VISTA 3: ARCHIVOS DE PROYECTOS (Ranuras vacías) -->
+    <section id="panel-proyectos" class="screen-panel" role="tabpanel">
+      <h2><span>*</span> REGISTROS DE PROYECTOS</h2>
+      <div class="slots-grid">
+        <article class="save-slot" data-slot="01">
+          <div class="slot-meta">
+            <span>SLOT 01</span>
+            <span class="slot-status">[ VACÍO ]</span>
+          </div>
+          <h3>Archivo Pendiente</h3>
+          <p>Ranura reservada para documentación de infraestructura, automatización o arquitectura de sistemas.</p>
+        </article>
+
+        <article class="save-slot" data-slot="02">
+          <div class="slot-meta">
+            <span>SLOT 02</span>
+            <span class="slot-status">[ VACÍO ]</span>
+          </div>
+          <h3>Archivo Pendiente</h3>
+          <p>Ranura reservada para herramientas internas, gestión de activos o despliegue de servicios.</p>
+        </article>
+
+        <article class="save-slot" data-slot="03">
+          <div class="slot-meta">
+            <span>SLOT 03</span>
+            <span class="slot-status">[ VACÍO ]</span>
+          </div>
+          <h3>Archivo Pendiente</h3>
+          <p>Ranura reservada para experimentos técnicos, scripts o integraciones en desarrollo.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- VISTA 4: SEÑAL / CONTACTO -->
+    <section id="panel-contacto" class="screen-panel" role="tabpanel">
+      <h2><span>*</span> CANAL DE TRANSMISIÓN</h2>
+      <div class="contact-terminal">
+        <p>¿Buscas colaborar en infraestructura, automatización o arquitectura de sistemas? Abre una frecuencia directa:</p>
+        <a href="mailto:juanra.gardel@outlook.com" class="btn-soul" id="contactBtn">▶ ENVIAR MENSAJE (juanra.gardel@outlook.com)</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <span>* El silencio del Abismo también es código.</span>
+    <span>© 2026 JUAN GARCÍA</span>
   </footer>
 
-  <!-- Sintetizador Chiptune Ambiental (Web Audio API) -->
+  <!-- Motor de Navegación RPG + Sintetizador SFX & BGM (Web Audio API) -->
   <script>
-    const audioBtn = document.getElementById('audioToggle');
-    const audioLabel = document.getElementById('audioLabel');
-    let audioCtx = null;
-    let isPlaying = false;
-    let intervalId = null;
+    const menuItems = Array.from(document.querySelectorAll('.menu-item'));
+    const panels = Array.from(document.querySelectorAll('.screen-panel'));
+    const sfxBtn = document.getElementById('sfxToggle');
+    const sfxLabel = document.getElementById('sfxLabel');
+    const bgmBtn = document.getElementById('bgmToggle');
+    const bgmLabel = document.getElementById('bgmLabel');
 
-    // Secuencia melódica minimalista melancólica (inspiración ambient 8-bit)
-    // Frecuencias en Hz (Re menor / La menor etéreo)
+    let audioCtx = null;
+    let sfxEnabled = true;
+    let bgmPlaying = false;
+    let bgmInterval = null;
+    let currentIndex = 0;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    // Sonido 1: Movimiento de cursor (blip retro agudo)
+    function playCursorSound() {
+      if (!sfxEnabled) return;
+      initAudio();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(520, audioCtx.currentTime);
+      osc.frequency.setValueAtTime(680, audioCtx.currentTime + 0.03);
+
+      gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.07);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.075);
+    }
+
+    // Sonido 2: Confirmación / Selección de menú (doble nota estilo RPG)
+    function playSelectSound() {
+      if (!sfxEnabled) return;
+      initAudio();
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.setValueAtTime(880, now + 0.06);
+
+      gain.gain.setValueAtTime(0.045, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.19);
+    }
+
+    // Sonido 3: Ranura vacía / bloqueada (tono grave suave)
+    function playEmptySlotSound() {
+      if (!sfxEnabled) return;
+      initAudio();
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(180, now);
+      osc.frequency.setValueAtTime(130, now + 0.08);
+
+      gain.gain.setValueAtTime(0.06, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.21);
+    }
+
+    // Cambio de pantalla activa
+    function activateScreen(index, withSound = true) {
+      if (index === currentIndex && panels[index].classList.contains('active')) return;
+      currentIndex = index;
+
+      menuItems.forEach((btn, i) => {
+        const isSelected = i === index;
+        btn.classList.toggle('selected', isSelected);
+        btn.setAttribute('aria-selected', isSelected);
+      });
+
+      panels.forEach((panel, i) => {
+        panel.classList.remove('active');
+        if (i === index) {
+          // Forzar reinicio de animación CSS
+          void panel.offsetWidth;
+          panel.classList.add('active');
+        }
+      });
+
+      if (withSound) playSelectSound();
+    }
+
+    // Eventos en botones del menú
+    menuItems.forEach((btn, index) => {
+      btn.addEventListener('mouseenter', () => {
+        if (index !== currentIndex) playCursorSound();
+      });
+      btn.addEventListener('click', () => {
+        activateScreen(index, true);
+      });
+    });
+
+    // Sonido al tocar ranuras vacías
+    document.querySelectorAll('.save-slot').forEach(slot => {
+      slot.addEventListener('click', () => {
+        playEmptySlotSound();
+      });
+    });
+
+    // Navegación con flechas del teclado
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        const next = (currentIndex + 1) % menuItems.length;
+        activateScreen(next, true);
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        const prev = (currentIndex - 1 + menuItems.length) % menuItems.length;
+        activateScreen(prev, true);
+      }
+    });
+
+    // Botón Toggle SFX
+    sfxBtn.addEventListener('click', () => {
+      sfxEnabled = !sfxEnabled;
+      sfxBtn.classList.toggle('active', sfxEnabled);
+      sfxLabel.textContent = sfxEnabled ? 'SFX: ON' : 'SFX: OFF';
+      if (sfxEnabled) playSelectSound();
+    });
+
+    // Música Ambiental 8-bit (BGM)
     const melody = [
       293.66, 440.00, 349.23, 329.63,
       261.63, 392.00, 329.63, 293.66,
@@ -148,48 +293,40 @@
     ];
     let step = 0;
 
-    function playNote(freq) {
+    function playBgmNote(freq) {
       if (!freq || !audioCtx) return;
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
-
-      // Onda triangular suave para timbre nostálgico tipo NES/GameBoy
       osc.type = 'triangle';
       osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
 
       gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.06, audioCtx.currentTime + 0.08);
+      gain.gain.exponentialRampToValueAtTime(0.055, audioCtx.currentTime + 0.08);
       gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.65);
 
       osc.connect(gain);
       gain.connect(audioCtx.destination);
-
       osc.start();
       osc.stop(audioCtx.currentTime + 0.7);
     }
 
-    audioBtn.addEventListener('click', () => {
-      if (!isPlaying) {
-        if (!audioCtx) {
-          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        if (audioCtx.state === 'suspended') {
-          audioCtx.resume();
-        }
-        isPlaying = true;
-        audioBtn.classList.add('playing');
-        audioLabel.textContent = 'BGM: ON';
-        playNote(melody[step]);
+    bgmBtn.addEventListener('click', () => {
+      initAudio();
+      if (!bgmPlaying) {
+        bgmPlaying = true;
+        bgmBtn.classList.add('active');
+        bgmLabel.textContent = 'BGM: ON';
+        playBgmNote(melody[step]);
         step = (step + 1) % melody.length;
-        intervalId = setInterval(() => {
-          playNote(melody[step]);
+        bgmInterval = setInterval(() => {
+          playBgmNote(melody[step]);
           step = (step + 1) % melody.length;
         }, 680);
       } else {
-        isPlaying = false;
-        clearInterval(intervalId);
-        audioBtn.classList.remove('playing');
-        audioLabel.textContent = 'BGM: OFF';
+        bgmPlaying = false;
+        clearInterval(bgmInterval);
+        bgmBtn.classList.remove('active');
+        bgmLabel.textContent = 'BGM: OFF';
       }
     });
   </script>
