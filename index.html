@@ -8,10 +8,28 @@
 </head>
 <body>
 
+  <!-- Consola Desplegable estilo Quake -->
+  <aside id="cliDrawer" class="cli-drawer" aria-label="Terminal interactiva">
+    <div class="cli-inner">
+      <div class="cli-header">
+        <span>&gt;_ SYS_OS // TERMINAL DE COMANDOS [TECLA: ` o ESC]</span>
+        <button id="cliClose" class="cli-close">[ X ]</button>
+      </div>
+      <div id="cliOutput" class="cli-output"></div>
+      <div class="cli-input-row">
+        <span class="cli-prompt">sys@juan:~$</span>
+        <input type="text" id="cliInput" class="cli-input" autocomplete="off" spellcheck="false" placeholder="Escribe 'help' y presiona Enter...">
+      </div>
+    </div>
+  </aside>
+
   <!-- HUD Superior -->
   <header class="top-hud">
     <div class="hud-title"><span>*</span> JUAN.GARCIA // SYS_OS</div>
     <div class="sound-rack">
+      <button id="cliToggle" class="audio-btn" aria-label="Abrir terminal de comandos">
+        <span>&gt;_ CLI</span>
+      </button>
       <button id="sfxToggle" class="audio-btn active" aria-label="Alternar efectos de sonido">
         <span id="sfxLabel">SFX: ON</span>
       </button>
@@ -40,13 +58,12 @@
     </button>
   </nav>
 
-  <!-- Escenario Dinámico (Aquí aparecen y desaparecen las vistas) -->
+  <!-- Escenario Dinámico -->
   <main class="stage-container">
 
     <!-- VISTA 1: PERFIL -->
     <section id="panel-perfil" class="screen-panel active" role="tabpanel">
       <div class="hero-header">
-        <!-- Emblema Pixel Art: Corazón Invertido de Justicia -->
         <svg class="pixel-emblem" viewBox="0 0 16 16" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
           <path fill="rgba(255,216,0,0.22)" d="M7 1h2v1H7zM6 2h1v1H6zm3 0h1v1H9zM5 3h1v1H5zm5 0h1v1h-1zM3 4h2v1H3zm8 0h2v1h-2zM2 5h1v5H2zm11 0h1v5h-1zM3 10h1v2H3zm9 0h1v2h-1zM4 12h3v1H4zm5 0h3v1H9z"/>
           <path fill="#FFD800" d="M7 2h2v1H7zM6 3h4v1H6zM5 4h6v1H5zM4 5h8v1H4zM3 6h10v3H3zM4 9h3v1H4zm5 0h3v1H9zM5 10h2v1H5zm4 0h2v1H9z"/>
@@ -64,7 +81,7 @@
       </p>
 
       <div class="hint-bar">
-        * TIP: Usa el menú superior o las flechas del teclado [ ← / → ] para navegar entre módulos.
+        * TIP: Usa las flechas [ ← / → ] para navegar o presiona [ &gt;_ CLI ] para abrir la terminal.
       </div>
     </section>
 
@@ -92,7 +109,7 @@
       </div>
     </section>
 
-    <!-- VISTA 3: ARCHIVOS DE PROYECTOS (Ranuras vacías) -->
+    <!-- VISTA 3: ARCHIVOS DE PROYECTOS -->
     <section id="panel-proyectos" class="screen-panel" role="tabpanel">
       <h2><span>*</span> REGISTROS DE PROYECTOS</h2>
       <div class="slots-grid">
@@ -138,14 +155,15 @@
 
   <!-- Footer -->
   <footer>
-    <span>*</span>
+    <span>* El silencio del Abismo también es código.</span>
     <span>© 2026 JUAN GARCÍA</span>
   </footer>
 
-  <!-- Cargar motor de audio modular -->
+  <!-- Módulos externos -->
   <script src="audio.js"></script>
+  <script src="terminal.js"></script>
 
-  <!-- Lógica ligera de navegación de pantallas -->
+  <!-- Navegación de pantallas -->
   <script>
     const menuItems = Array.from(document.querySelectorAll('.menu-item'));
     const panels = Array.from(document.querySelectorAll('.screen-panel'));
@@ -190,6 +208,10 @@
     });
 
     document.addEventListener('keydown', (e) => {
+      // No cambiar de pantalla si la terminal desplegable está abierta
+      const drawer = document.getElementById('cliDrawer');
+      if (drawer && drawer.classList.contains('open')) return;
+
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
         activateScreen((currentIndex + 1) % menuItems.length, true);
       } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
