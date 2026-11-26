@@ -3,84 +3,196 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Juan García | Portafolio de Proyectos</title>
+  <title>Juan García | SysAdmin & Arquitectura de Recursos</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <!-- Navegación -->
   <nav>
-    <a href="#" class="logo">Juan<span>.</span>García</a>
-    <ul class="nav-links">
-      <li><a href="#proyectos">Proyectos</a></li>
-      <li><a href="#stack">Tecnologías</a></li>
-      <li><a href="#contacto">Contacto</a></li>
-    </ul>
+    <a href="#" class="nav-brand"><span>*</span> JUAN.GARCIA</a>
+    <div class="nav-controls">
+      <ul class="nav-links">
+        <li><a href="#enfoque">Enfoque</a></li>
+        <li><a href="#proyectos">Archivos</a></li>
+        <li><a href="#contacto">Señal</a></li>
+      </ul>
+      <button id="audioToggle" class="audio-btn" aria-label="Alternar música ambiental 8-bit">
+        <span class="eq-bars">
+          <span></span><span></span><span></span>
+        </span>
+        <span id="audioLabel">BGM: OFF</span>
+      </button>
+    </div>
   </nav>
 
-  <!-- Presentación -->
+  <!-- Presentación Principal -->
   <header class="hero">
-    <span class="badge-status">Portafolio & Laboratorio</span>
-    <h1>Hola, soy Juan García.</h1>
-    <p>Aquí documento mis proyectos, automatizaciones, infraestructura y experimentos técnicos construidos para resolver problemas reales.</p>
-    <a href="#proyectos" class="btn-primary">Explorar proyectos</a>
+    <div class="hero-header">
+      <!-- Emblema Pixel Art: Corazón Invertido de Justicia con Aura Etérea -->
+      <svg class="pixel-emblem" viewBox="0 0 16 16" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+        <!-- Aura exterior tenue -->
+        <path fill="rgba(255,216,0,0.22)" d="M7 1h2v1H7zM6 2h1v1H6zm3 0h1v1H9zM5 3h1v1H5zm5 0h1v1h-1zM3 4h2v1H3zm8 0h2v1h-2zM2 5h1v5H2zm11 0h1v5h-1zM3 10h1v2H3zm9 0h1v2h-1zM4 12h3v1H4zm5 0h3v1H9z"/>
+        <!-- Núcleo amarillo (Corazón invertido estilo Soul) -->
+        <path fill="#FFD800" d="M7 2h2v1H7zM6 3h4v1H6zM5 4h6v1H5zM4 5h8v1H4zM3 6h10v3H3zM4 9h3v1H4zm5 0h3v1H9zM5 10h2v1H5zm4 0h2v1H9z"/>
+        <!-- Brillo interno blanco -->
+        <path fill="#FFFBEB" d="M5 6h1v2H5zm1-1h1v1H6z"/>
+      </svg>
+
+      <div class="hero-title-group">
+        <span class="subtitle">[ SYSADMIN // LIDERAZGO // ORQUESTACIÓN ]</span>
+        <h1>Juan García</h1>
+      </div>
+    </div>
+
+    <p class="hero-bio">
+      Administrador de Sistemas enfocado en la <strong>gestión estratégica de recursos tecnológicos y talento humano</strong>. Coordino equipos multidisciplinarios para mantener la infraestructura resiliente, automatizar procesos críticos y convertir sistemas complejos en operaciones armónicas.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#proyectos" class="btn-soul">▶ EXPLORAR REGISTROS</a>
+    </div>
   </header>
 
-  <!-- Sección de Proyectos -->
-  <section id="proyectos">
-    <h2>Proyectos destacados</h2>
-    <div class="projects-grid">
-      
-      <article class="card">
-        <div>
-          <h3>Proyecto 1: [Nombre del proyecto]</h3>
-          <p>Breve descripción de qué problema resuelve, qué aprendiste o cómo está estructurada la solución.</p>
-        </div>
-        <div>
-          <div class="tags">
-            <span class="tag">Automatización</span>
-            <span class="tag">Infraestructura</span>
-          </div>
-          <a href="#" class="card-link">Ver repositorio →</a>
-        </div>
+  <!-- Pilares de Gestión (Combinación profesional + guiño RPG) -->
+  <section id="enfoque">
+    <div class="section-header">
+      <h2>01. ARQUITECTURA & GESTIÓN</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="pillars-grid">
+      <article class="pillar-box">
+        <span class="pillar-code">ATTR // INFRAESTRUCTURA</span>
+        <h3>Sistemas & Continuidad</h3>
+        <p>Administración de servidores, redes, seguridad operativa y estandarización de entornos productivos de alta disponibilidad.</p>
       </article>
 
-      <article class="card">
-        <div>
-          <h3>Proyecto 2: [Nombre del proyecto]</h3>
-          <p>Otro experimento, herramienta interna, dashboard o script que quieras mostrar en tu vitrina.</p>
-        </div>
-        <div>
-          <div class="tags">
-            <span class="tag">HTML/CSS</span>
-            <span class="tag">Cloudflare</span>
-          </div>
-          <a href="#" class="card-link">Ver detalles →</a>
-        </div>
+      <article class="pillar-box">
+        <span class="pillar-code">ATTR // SINCRONÍA</span>
+        <h3>Equipos Multidisciplinarios</h3>
+        <p>Coordinación de talento técnico, definición de SLAs y alineación entre áreas operativas y objetivos de negocio.</p>
       </article>
 
+      <article class="pillar-box">
+        <span class="pillar-code">ATTR // RECURSOS</span>
+        <h3>Optimización & Estrategia</h3>
+        <p>Gobernanza de activos tecnológicos, control de presupuestos, evaluación de proveedores y automatización de flujos.</p>
+      </article>
     </div>
   </section>
 
-  <!-- Stack / Herramientas -->
-  <section id="stack">
-    <h2>Herramientas y enfoque</h2>
-    <div class="skills-list">
-      <span class="skill-pill">Administración de Sistemas</span>
-      <span class="skill-pill">Automatización de Procesos</span>
-      <span class="skill-pill">Redes & Seguridad</span>
-      <span class="skill-pill">Cloud & Despliegue Web</span>
-      <span class="skill-pill">Scripting (PowerShell / Bash)</span>
+  <!-- Proyectos (Ranuras vacías listas para poblar) -->
+  <section id="proyectos">
+    <div class="section-header">
+      <h2>02. REGISTROS DE PROYECTOS</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="slots-grid">
+      <article class="save-slot">
+        <div class="slot-meta">
+          <span>SLOT 01</span>
+          <span class="slot-status">[ VACÍO ]</span>
+        </div>
+        <h3>Archivo Pendiente</h3>
+        <p>Espacio reservado para documentación de infraestructura, automatización o arquitectura de sistemas.</p>
+        <div class="slot-footer">ESTADO: Esperando datos...</div>
+      </article>
+
+      <article class="save-slot">
+        <div class="slot-meta">
+          <span>SLOT 02</span>
+          <span class="slot-status">[ VACÍO ]</span>
+        </div>
+        <h3>Archivo Pendiente</h3>
+        <p>Espacio reservado para herramientas internas, gestión de activos o despliegue de servicios.</p>
+        <div class="slot-footer">ESTADO: Esperando datos...</div>
+      </article>
+
+      <article class="save-slot">
+        <div class="slot-meta">
+          <span>SLOT 03</span>
+          <span class="slot-status">[ VACÍO ]</span>
+        </div>
+        <h3>Archivo Pendiente</h3>
+        <p>Espacio reservado para experimentos técnicos, scripts o integraciones en desarrollo.</p>
+        <div class="slot-footer">ESTADO: Esperando datos...</div>
+      </article>
     </div>
   </section>
 
   <!-- Contacto -->
   <footer id="contacto">
-    <span>© 2026 Juan García</span>
+    <span>* El silencio del Abismo también es código. — 2026</span>
     <div>
-      Contacto: <a href="mailto:juanra.gardel@outlook.com">juanra.gardel@outlook.com</a>
+      TRANSMISIÓN: <a href="mailto:juanra.gardel@outlook.com">juanra.gardel@outlook.com</a>
     </div>
   </footer>
+
+  <!-- Sintetizador Chiptune Ambiental (Web Audio API) -->
+  <script>
+    const audioBtn = document.getElementById('audioToggle');
+    const audioLabel = document.getElementById('audioLabel');
+    let audioCtx = null;
+    let isPlaying = false;
+    let intervalId = null;
+
+    // Secuencia melódica minimalista melancólica (inspiración ambient 8-bit)
+    // Frecuencias en Hz (Re menor / La menor etéreo)
+    const melody = [
+      293.66, 440.00, 349.23, 329.63,
+      261.63, 392.00, 329.63, 293.66,
+      220.00, 349.23, 329.63, 261.63,
+      293.66, 0,      220.00, 0
+    ];
+    let step = 0;
+
+    function playNote(freq) {
+      if (!freq || !audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      // Onda triangular suave para timbre nostálgico tipo NES/GameBoy
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+      gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.06, audioCtx.currentTime + 0.08);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.65);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.7);
+    }
+
+    audioBtn.addEventListener('click', () => {
+      if (!isPlaying) {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        isPlaying = true;
+        audioBtn.classList.add('playing');
+        audioLabel.textContent = 'BGM: ON';
+        playNote(melody[step]);
+        step = (step + 1) % melody.length;
+        intervalId = setInterval(() => {
+          playNote(melody[step]);
+          step = (step + 1) % melody.length;
+        }, 680);
+      } else {
+        isPlaying = false;
+        clearInterval(intervalId);
+        audioBtn.classList.remove('playing');
+        audioLabel.textContent = 'BGM: OFF';
+      }
+    });
+  </script>
 
 </body>
 </html>
