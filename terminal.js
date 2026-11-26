@@ -1,13 +1,33 @@
-// Consola Desplegable estilo Quake / SysAdmin CLI (terminal.js)
+// Consola Desplegable estilo Quake / SysAdmin CLI con Usuario Dinámico (terminal.js)
 document.addEventListener('DOMContentLoaded', () => {
   const drawer = document.getElementById('cliDrawer');
   const toggleBtn = document.getElementById('cliToggle');
   const closeBtn = document.getElementById('cliClose');
   const output = document.getElementById('cliOutput');
   const input = document.getElementById('cliInput');
+  const promptLabel = document.getElementById('cliPrompt');
 
   let commandHistory = [];
   let historyIndex = -1;
+
+  // Recuperar usuario guardado o iniciar en modo selección
+  let currentUser = localStorage.getItem('sys_os_visitor') || null;
+  let awaitingUsername = !currentUser;
+
+  function sanitizeUsername(raw) {
+    const clean = raw.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '');
+    return clean.slice(0, 16) || 'guest';
+  }
+
+  function updatePromptUI() {
+    if (awaitingUsername) {
+      promptLabel.textContent = 'identidad>';
+      input.placeholder = 'Escribe tu alias (o presiona Enter para "guest")...';
+    } else {
+      promptLabel.textContent = `${currentUser}@juan:~$`;
+      input.placeholder = "Escribe 'help' y presiona Enter...";
+    }
+  }
 
   // Sonido sutil de tecla mecánica
   function playKeyTick() {
@@ -71,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
     root.style.setProperty('--soul-yellow', chosen.hex);
     root.style.setProperty('--soul-glow', chosen.glow);
 
-    // Actualizar color del emblema pixel art SVG
     const svgCore = document.querySelector('.pixel-emblem path:nth-child(2)');
     if (svgCore) svgCore.setAttribute('fill', chosen.hex);
 
@@ -81,13 +100,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Procesador de comandos
   function executeCommand(rawCmd) {
+    // Paso inicial: asignar nombre de usuario del visitante
+    if (awaitingUsername) {
+      const chosenUser = sanitizeUsername(rawCmd);
+      currentUser = chosenUser;
+      localStorage.setItem('sys_os_visitor', chosenUser);
+      awaitingUsername = false;
+      updatePromptUI();
+
+      if (typeof playSelectSound === 'function') playSelectSound();
+      printLine(`* Sesión iniciada como <span class="hl">${currentUser}@juan</span>.`, 'accent');
+      printLine('* Escribe <span class="hl">help</span> para listar comandos o <span class="hl">user [nombre]</span> si deseas cambiar tu alias.');
+      return;
+    }
+
     const trimmed = rawCmd.trim();
     if (!trimmed) return;
 
     commandHistory.unshift(trimmed);
     historyIndex = -1;
 
-    printLine(`<span class="cli-prompt-echo">sys@juan:~$</span> ${escapeHtml(trimmed)}`, 'cmd');
+    printLine(`<span class="cli-prompt-echo">${currentUser}@juan:~$</span> ${escapeHtml(trimmed)}`, 'cmd');
 
     const parts = trimmed.toLowerCase().split(/\s+/);
     const cmd = parts[0];
@@ -96,8 +129,9 @@ document.addEventListener('DOMContentLoaded', () => {
     switch (cmd) {
       case 'help':
       case '?':
-        printLine('Comandos disponibles en <span class="hl">SYS_OS v1.0</span>:', 'accent');
-        printLine('  <span class="hl">whoami</span>          - Perfil técnico y enfoque de liderazgo');
+        printLine('Comandos disponibles en <span class="hl">SYS_OS v1.1</span>:', 'accent');
+        printLine('  <span class="hl">user [nombre]</span>   - Cambiar tu alias de visitante en la sesión');
+        printLine('  <span class="hl">whoami</span>          - Perfil del anfitrión y estado de tu sesión');
         printLine('  <span class="hl">ls</span>              - Listar módulos y registros del sistema');
         printLine('  <span class="hl">cat [archivo]</span>   - Leer detalle (ej. cat slot01)');
         printLine('  <span class="hl">goto [vista]</span>    - Navegar a: perfil | gestion | archivos | senal');
@@ -108,9 +142,24 @@ document.addEventListener('DOMContentLoaded', () => {
         printLine('  <span class="hl">clear</span>           - Limpiar la pantalla de la terminal');
         break;
 
+      case 'user':
+      case 'su':
+      case 'name':
+        if (!arg) {
+          printLine('Uso: user [nuevo_alias] (ej. user neo)', 'error');
+        } else {
+          const newAlias = sanitizeUsername(arg);
+          currentUser = newAlias;
+          localStorage.setItem('sys_os_visitor', newAlias);
+          updatePromptUI();
+          printLine(`* Identidad actualizada a: <span class="hl">${currentUser}@juan</span>`, 'accent');
+          if (typeof playSelectSound === 'function') playSelectSound();
+        }
+        break;
+
       case 'whoami':
-        printLine('<span class="hl">Juan García</span> — Administrador de Sistemas & Estratega de Recursos.');
-        printLine('Especializado en infraestructura resiliente, coordinación de equipos multidisciplinarios y optimización de activos tecnológicos.');
+        printLine(`Conectado como: <span class="hl">${currentUser}</span> (Visitante del Abismo)`);
+        printLine('Anfitrión del nodo: <span class="hl">Juan García</span> — Administrador de Sistemas & Estratega de Recursos.');
         break;
 
       case 'ls':
@@ -192,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
         break;
 
       case 'sudo':
-        printLine('Permiso denegado: este incidente será reportado al Abismo.', 'error');
+        printLine(`Permiso denegado para '${currentUser}': este incidente será reportado al Abismo.`, 'error');
         if (typeof playEmptySlotSound === 'function') playEmptySlotSound();
         break;
 
@@ -218,11 +267,9 @@ document.addEventListener('DOMContentLoaded', () => {
     })[m]);
   }
 
-  // Eventos de botones
   toggleBtn.addEventListener('click', () => toggleTerminal());
   closeBtn.addEventListener('click', () => toggleTerminal(false));
 
-  // Eventos de teclado dentro del input de la terminal
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -230,18 +277,20 @@ document.addEventListener('DOMContentLoaded', () => {
       input.value = '';
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      if (historyIndex < commandHistory.length - 1) {
+      if (!awaitingUsername && historyIndex < commandHistory.length - 1) {
         historyIndex++;
         input.value = commandHistory[historyIndex];
       }
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
-      if (historyIndex > 0) {
-        historyIndex--;
-        input.value = commandHistory[historyIndex];
-      } else {
-        historyIndex = -1;
-        input.value = '';
+      if (!awaitingUsername) {
+        if (historyIndex > 0) {
+          historyIndex--;
+          input.value = commandHistory[historyIndex];
+        } else {
+          historyIndex = -1;
+          input.value = '';
+        }
       }
     } else if (e.key === 'Escape') {
       toggleTerminal(false);
@@ -250,7 +299,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Atajo global: tecla ` / ~ / | / ° (Backquote) abre o cierra la consola
   document.addEventListener('keydown', (e) => {
     if (e.code === 'Backquote') {
       e.preventDefault();
@@ -260,7 +308,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Mensaje de bienvenida al iniciar
-  printLine('* SYS_OS Terminal v1.0 conectada al Abismo.', 'accent');
-  printLine('* Escribe <span class="hl">help</span> para listar comandos o presiona [ESC] para cerrar.');
+  // Inicialización de bienvenida según si es visitante nuevo o recurrente
+  updatePromptUI();
+  printLine('* SYS_OS Terminal v1.1 conectada al Abismo.', 'accent');
+  if (awaitingUsername) {
+    printLine('* <span class="hl">Nombra tu presencia:</span> escribe un alias para esta sesión (o presiona Enter para continuar como <span class="hl">guest</span>).');
+  } else {
+    printLine(`* Bienvenido de nuevo, <span class="hl">${currentUser}</span>. Escribe <span class="hl">help</span> para ver comandos.`);
+  }
 });
